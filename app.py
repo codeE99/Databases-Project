@@ -47,3 +47,8 @@ def login():
             msg='Incorrect username and/or password!'
     #show the login form with message (if any)
     return render_template('index.html',msg=msg)
+    
+@app.route('/')
+def index():
+    return render_template('index.html')
+
