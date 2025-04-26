@@ -48,7 +48,7 @@ def login():
     #show the login form with message (if any)
     return render_template('index.html',msg=msg)
     
-@app.route('/')
-def index():
-    return render_template('index.html')
+#@app.route('/')
+#def index():
+#    return render_template('index.html')
 
