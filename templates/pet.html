@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<!--a file for registering a customer's pets-->
+>>>>>>> c3e9608d398ec913e78ff8d66e830f928c5d7cb9
 {% extends  '/include/layout.html' %}
 {% block content %}
 
@@ -13,17 +17,19 @@
     <h1>Pet Registration</h1>
         <form action="/pet" method="POST">
            <p>name<input type="text" name="name"/></p>
-           <p>breed<input type="text" name="Breed"></p>
-           <p>Rabies Vaccination<input type="radio" name="rabies_vaccination" value="yes" id="yes">
+           <p>breed<input type="text" name="breed"></p>
+           <p>Rabies Vaccination<input type="radio" name="rabies_vacc" value="yes" id="yes">
             <label for= "yes"> Yes</label>
-            <input type="radio" name="rabies_vaccination" value="no" id="no">
+            <input type="radio" name="rabies_vacc" value="no" id="no">
             <label for="no">No</label></p>
             <p>Current Medications<input type="text" name="medications"/></p>
             <p>Medical Conditions<input type="text" name="conditions"/></p>
             <p>Behavior <input type="text" name="behavior"/></p>
             <button type="submit" class="btn btn-primary">Register Pet</button>
         </form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 {% endblock %}
