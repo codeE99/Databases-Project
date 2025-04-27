@@ -1,0 +1,28 @@
+<!--a file for registering a customer's pets-->
+{% extends  '/include/layout.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dog Dayz Salon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Pet Registration</h1>
+        <form action="/pet" method="POST">
+           <p>name<input type="text" name="name"/></p>
+           <p>breed<input type="text" name="breed"></p>
+           <p>Rabies Vaccination<input type="radio" name="rabies_vacc" value="yes" id="yes">
+            <label for= "yes"> Yes</label>
+            <input type="radio" name="rabies_vacc" value="no" id="no">
+            <label for="no">No</label></p>
+            <p>Current Medications<input type="text" name="medications"/></p>
+            <p>Medical Conditions<input type="text" name="conditions"/></p>
+            <p>Behavior <input type="text" name="behavior"/></p>
+            <button type="submit" class="btn btn-primary">Register Pet</button>
+        </form>
+</body>
+</html>
