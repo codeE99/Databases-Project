@@ -194,6 +194,127 @@ def staff_profile(staff_id):
         flash('Staff member not found.', 'warning')
         return redirect('/view_staff')
 
+# Appointment routes
+#=======================================================
+# Appointment Management Menu
+@app.route('/appointment_management')
+def appointment_management():
+    return render_template('appointment_management.html')
+
+# View Appointments by Date
+@app.route('/view_appointments_by_date', methods=['GET', 'POST'])
+def view_appointments_by_date():
+    if request.method == 'POST':
+        date_day = request.form['Date_Day']
+        date_month = request.form['Date_Month']
+        date_year = request.form['Date_Year']
+
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            SELECT 
+                A.Appointment_ID,
+                A.Time,
+                S.First_Name AS Staff_FirstName,
+                S.Last_Name AS Staff_LastName,
+                O.First_Name AS Owner_FirstName,
+                O.Last_Name AS Owner_LastName,
+                P.Name AS Pet_Name,
+                A.Status
+            FROM APPOINTMENT A
+            JOIN STAFF S ON A.Staff_ID = S.Staff_ID
+            JOIN OWNER O ON A.Owner_ID = O.Owner_ID
+            JOIN PET P ON A.Pet_ID = P.Pet_ID
+            WHERE A.Date_Day = %s AND A.Date_Month = %s AND A.Date_Year = %s
+            ORDER BY A.Time
+        """, (date_day, date_month, date_year))
+        appointments = cur.fetchall()
+        cur.close()
+
+        return render_template('view_appointments_by_date.html', appointments=appointments, search_date=f"{date_month}/{date_day}/{date_year}")
+
+    return render_template('view_appointments_by_date.html', appointments=None)
+
+# Create Appointment
+@app.route('/create_appointment', methods=['GET', 'POST'])
+def create_appointment():
+    if request.method == 'POST':
+        try:
+            Appointment_ID = request.form['Appointment_ID']
+            Date_Day = request.form['Date_Day']
+            Date_Month = request.form['Date_Month']
+            Date_Year = request.form['Date_Year']
+            Time = request.form['Time']
+            Staff_ID = request.form['Staff_ID']
+            Owner_ID = request.form['Owner_ID']
+            Pet_ID = request.form['Pet_ID']
+
+            cur = mysql.connection.cursor()
+            cur.execute("""
+                INSERT INTO APPOINTMENT
+                (Appointment_ID, Date_Day, Date_Month, Date_Year, Time, Staff_ID, Owner_ID, Pet_ID)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """, (Appointment_ID, Date_Day, Date_Month, Date_Year, Time, Staff_ID, Owner_ID, Pet_ID))
+            mysql.connection.commit()
+            cur.close()
+
+            flash('Appointment created successfully!', 'success')
+            return redirect('/appointment_management')
+
+        except Exception as e:
+            flash(f"An error occurred: {str(e)}", 'danger')
+            return redirect('/appointment_management')
+
+    return render_template('create_appointment.html')
+
+# Delete Appointment
+@app.route('/delete_appointment', methods=['GET', 'POST'])
+def delete_appointment():
+    if request.method == 'POST':
+        try:
+            Appointment_ID = request.form['Appointment_ID']
+
+            cur = mysql.connection.cursor()
+            cur.execute("DELETE FROM APPOINTMENT WHERE Appointment_ID = %s", (Appointment_ID,))
+            mysql.connection.commit()
+            cur.close()
+
+            flash(f"Appointment {Appointment_ID} deleted successfully.", 'success')
+            return redirect('/appointment_management')
+
+        except Exception as e:
+            flash(f"An error occurred: {str(e)}", 'danger')
+            return redirect('/appointment_management')
+
+    return render_template('delete_appointment.html')
+
+# Update Appointment Status
+@app.route('/update_appointment_status', methods=['GET', 'POST'])
+def update_appointment_status():
+    if request.method == 'POST':
+        try:
+            Appointment_ID = request.form['Appointment_ID']
+            Status = request.form['Status']
+
+            cur = mysql.connection.cursor()
+            cur.execute("""
+                UPDATE APPOINTMENT 
+                SET Status = %s 
+                WHERE Appointment_ID = %s
+            """, (Status, Appointment_ID))
+            mysql.connection.commit()
+            cur.close()
+
+            flash(f"Appointment {Appointment_ID} status updated to {Status}.", 'success')
+            return redirect('/appointment_management')
+
+        except Exception as e:
+            flash(f"An error occurred: {str(e)}", 'danger')
+            return redirect('/appointment_management')
+
+    return render_template('update_appointment_status.html')
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
