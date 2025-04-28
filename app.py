@@ -31,18 +31,28 @@ def pet():
         return render_template('pet.html')
     
     if request.method == 'POST':
+        cursor=mysql.connection.cursor()
+        cursor.execute("SELECT MAX(CAST(SUBSTRING(pet_id, 4) AS UNSIGNED)) FROM pet WHERE pet_id LIKE 'PET%'")
+        result = cursor.fetchone()
+        max_id = result[0] if result[0] else 0
+        new_pet_id = f"PET{max_id + 1}"
+
         name=request.form['name']
         breed=request.form['breed']
         rabies_vacc = 1 if request.form['rabies_vacc'] == 'yes' else 0
         current_meds=request.form['medications']
         med_conditions=request.form['conditions']
         behavior=request.form['behavior']
-        cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO pet (Name, Breed, Medical_RabiesVac,Current_Meds, Medical_Conditions,Behavior) VALUES(%s,%s,%s,%s,%s,%s)", [name, breed, rabies_vacc,current_meds, med_conditions, behavior])
+        owner_id=request.form['owner_id']
+        #cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO pet (Pet_ID, Name, Breed, Medical_RabiesVac, Current_Meds, Medical_Conditions, Behavior, Owner_ID) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", 
+                       [new_pet_id, name, breed, rabies_vacc, current_meds, med_conditions, behavior, owner_id])
         mysql.connection.commit()
         cursor.close()
-        msg='Pet added!'
-        return render_template ('pet.html',msg=msg)
+        msg=f"Pet added with ID {new_pet_id}!"
+        flash(msg)
+        print(f"Inserting: {new_pet_id}, {name}, {breed}, {rabies_vacc}, {current_meds}, {med_conditions}, {behavior}, {owner_id}")
+        return render_template ('pet.html')
 
 # Route to show the "Customer" form
 @app.route('/customer_management')
