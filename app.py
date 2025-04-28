@@ -44,7 +44,7 @@ def pet():
         msg='Pet added!'
         return render_template ('pet.html',msg=msg)
 
-# Staff routes
+# Customer routes
 #=======================================================
 # Route to show the "Customer" form
 @app.route('/customer_management')
