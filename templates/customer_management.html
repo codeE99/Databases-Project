@@ -1,0 +1,30 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+
+<div class="container mt-5 text-center">
+  <h2 class="mb-4">Customer Management</h2>
+
+  <!-- Flashed messages here -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <!-- End flashed messages -->
+
+  <div class="d-grid gap-3 col-6 mx-auto">
+
+    <a href="/add_customer" class="btn btn-primary btn-lg">Add a Customer</a>
+
+    <a href="/remove_customer" class="btn btn-danger btn-lg">Remove a Customer</a>
+
+  </div>
+</div>
+
+{% endblock %}
+

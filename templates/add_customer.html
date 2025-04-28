@@ -1,0 +1,89 @@
+{% extends  '/include/layout.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Customer - Dog Dayz Salon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #202020;">
+
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Add New Customer</h2>
+  <form method="POST" action="{{ url_for('add_customer') }}">
+    
+    <!-- Owner ID -->
+    <div class="mb-3">
+      <label for="Owner_ID" class="form-label">Owner ID</label>
+      <input type="text" class="form-control" id="Owner_ID" name="Owner_ID" required>
+    </div>
+
+    <!-- First Name -->
+    <div class="mb-3">
+      <label for="First_Name" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="First_Name" name="First_Name" required>
+    </div>
+
+    <!-- Last Name -->
+    <div class="mb-3">
+      <label for="Last_Name" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="Last_Name" name="Last_Name" required>
+    </div>
+
+    <!-- Address Line 1 -->
+    <div class="mb-3">
+      <label for="Add_Line1" class="form-label">Address Line 1</label>
+      <input type="text" class="form-control" id="Add_Line1" name="Add_Line1">
+    </div>
+
+    <!-- Address Line 2 -->
+    <div class="mb-3">
+      <label for="Add_Line2" class="form-label">Address Line 2</label>
+      <input type="text" class="form-control" id="Add_Line2" name="Add_Line2">
+    </div>
+
+    <!-- City -->
+    <div class="mb-3">
+      <label for="City" class="form-label">City</label>
+      <input type="text" class="form-control" id="City" name="City">
+    </div>
+
+    <!-- State -->
+    <div class="mb-3">
+      <label for="State" class="form-label">State</label>
+      <input type="text" class="form-control" id="State" name="State">
+    </div>
+
+    <!-- Zip -->
+    <div class="mb-3">
+      <label for="Zip" class="form-label">Zip Code</label>
+      <input type="number" class="form-control" id="Zip" name="Zip">
+    </div>
+
+    <!-- Contact Phone -->
+    <div class="mb-3">
+      <label for="Contact_Phone" class="form-label">Contact Phone</label>
+      <input type="tel" class="form-control" id="Contact_Phone" name="Contact_Phone">
+    </div>
+
+    <!-- Contact Email -->
+    <div class="mb-3">
+      <label for="Contact_Email" class="form-label">Contact Email</label>
+      <input type="email" class="form-control" id="Contact_Email" name="Contact_Email">
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Add Customer</button>
+    </div>
+
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Remove Customer</h2>
+
+  <form action="{{ url_for('remove_customer') }}" method="POST">
+    <div class="mb-3">
+      <label for="Owner_ID" class="form-label">Enter Owner ID to Remove</label>
+      <input type="text" class="form-control" id="Owner_ID" name="Owner_ID" required>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Remove Customer</button>
+    <a href="{{ url_for('customer_management') }}" class="btn btn-secondary">Back</a>
+  </form>
+</div>
+
+{% endblock %}
