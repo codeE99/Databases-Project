@@ -1,0 +1,51 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Add Staff Member</h2>
+
+  <form method="POST" action="{{ url_for('add_staff') }}">
+    <div class="mb-3">
+      <label for="Staff_ID" class="form-label">Staff ID</label>
+      <input type="text" class="form-control" id="Staff_ID" name="Staff_ID" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="First_Name" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="First_Name" name="First_Name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Last_Name" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="Last_Name" name="Last_Name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Role" class="form-label">Role</label>
+      <select class="form-select" id="Role" name="Role" required>
+        <option value="Groomer">Groomer</option>
+        <option value="Receptionist">Receptionist</option>
+        <option value="Manager">Manager</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="Salary" class="form-label">Salary</label>
+      <input type="number" class="form-control" id="Salary" name="Salary" step="0.01">
+    </div>
+
+    <div class="mb-3">
+      <label for="Date_Started" class="form-label">Date Started</label>
+      <input type="date" class="form-control" id="Date_Started" name="Date_Started">
+    </div>
+
+    <div class="mb-3">
+      <label for="Qualifications" class="form-label">Qualifications</label>
+      <textarea class="form-control" id="Qualifications" name="Qualifications"></textarea>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">Add Staff</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

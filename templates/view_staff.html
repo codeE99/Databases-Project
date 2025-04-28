@@ -1,0 +1,26 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Staff Members</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <ul class="list-group">
+    {% for staff in staff_list %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ staff[1] }} {{ staff[2] }}
+        <a href="{{ url_for('staff_profile', staff_id=staff[0]) }}" class="btn btn-info btn-sm">View Profile</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

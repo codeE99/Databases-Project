@@ -1,0 +1,26 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Update Appointment Status</h2>
+
+  <form method="POST" action="{{ url_for('update_appointment_status') }}">
+    <div class="mb-3">
+      <label for="Appointment_ID" class="form-label">Appointment ID</label>
+      <input type="text" class="form-control" id="Appointment_ID" name="Appointment_ID" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Status" class="form-label">New Status</label>
+      <select class="form-select" id="Status" name="Status" required>
+        <option value="Scheduled">Scheduled</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-warning">Update Status</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

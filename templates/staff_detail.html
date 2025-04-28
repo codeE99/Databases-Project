@@ -1,0 +1,23 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="text-center mb-4">Staff Details</h2>
+
+  {% if staff %}
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Staff ID:</strong> {{ staff[0] }}</li>
+      <li class="list-group-item"><strong>First Name:</strong> {{ staff[1] }}</li>
+      <li class="list-group-item"><strong>Last Name:</strong> {{ staff[2] }}</li>
+      <li class="list-group-item"><strong>Position:</strong> {{ staff[3] }}</li>
+    </ul>
+  {% else %}
+    <p class="text-center">Staff member not found.</p>
+  {% endif %}
+
+  <div class="mt-4 text-center">
+    <a href="{{ url_for('view_staff') }}" class="btn btn-secondary">Back to Staff List</a>
+  </div>
+</div>
+
+{% endblock %}

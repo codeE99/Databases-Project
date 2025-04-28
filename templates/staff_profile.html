@@ -1,0 +1,20 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Staff Profile</h2>
+
+  {% if staff %}
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Staff ID:</strong> {{ staff[0] }}</li>
+      <li class="list-group-item"><strong>First Name:</strong> {{ staff[1] }}</li>
+      <li class="list-group-item"><strong>Last Name:</strong> {{ staff[2] }}</li>
+      <li class="list-group-item"><strong>Role:</strong> {{ staff[3] }}</li>
+      <li class="list-group-item"><strong>Salary:</strong> ${{ staff[4] }}</li>
+      <li class="list-group-item"><strong>Date Started:</strong> {{ staff[5] }}</li>
+      <li class="list-group-item"><strong>Qualifications:</strong> {{ staff[6] }}</li>
+    </ul>
+  {% else %}
+    <div class="alert alert-warning">No staff member found.</div>
+  {% endif %}
+</div>
+{% endblock %}

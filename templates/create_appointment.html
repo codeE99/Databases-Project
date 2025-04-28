@@ -1,0 +1,52 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Create Appointment</h2>
+
+  <form method="POST" action="{{ url_for('create_appointment') }}">
+    <div class="mb-3">
+      <label for="Appointment_ID" class="form-label">Appointment ID</label>
+      <input type="text" class="form-control" id="Appointment_ID" name="Appointment_ID" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Date_Month" class="form-label">Month</label>
+      <input type="text" class="form-control" id="Date_Month" name="Date_Month" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Date_Day" class="form-label">Day</label>
+      <input type="text" class="form-control" id="Date_Day" name="Date_Day" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Date_Year" class="form-label">Year</label>
+      <input type="text" class="form-control" id="Date_Year" name="Date_Year" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Time" class="form-label">Time (HH:MM)</label>
+      <input type="text" class="form-control" id="Time" name="Time" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Staff_ID" class="form-label">Staff ID</label>
+      <input type="text" class="form-control" id="Staff_ID" name="Staff_ID" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Owner_ID" class="form-label">Owner ID</label>
+      <input type="text" class="form-control" id="Owner_ID" name="Owner_ID" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="Pet_ID" class="form-label">Pet ID</label>
+      <input type="text" class="form-control" id="Pet_ID" name="Pet_ID" required>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">Create Appointment</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

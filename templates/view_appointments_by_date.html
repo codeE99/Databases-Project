@@ -1,0 +1,51 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">View Appointments by Date</h2>
+
+  <form method="POST" class="mb-4">
+    <div class="row">
+      <div class="col">
+        <input type="text" class="form-control" name="Date_Month" placeholder="MM" required>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" name="Date_Day" placeholder="DD" required>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" name="Date_Year" placeholder="YYYY" required>
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
+
+  {% if appointments %}
+    <h4 class="mb-3">Appointments for {{ search_date }}</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Staff Name</th>
+          <th>Owner Name</th>
+          <th>Pet Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appt in appointments %}
+          <tr>
+            <td>{{ appt[1] }}</td> <!-- Time -->
+            <td>{{ appt[2] }} {{ appt[3] }}</td> <!-- Staff First + Last Name -->
+            <td>{{ appt[4] }} {{ appt[5] }}</td> <!-- Owner First + Last Name -->
+            <td>{{ appt[6] }}</td> <!-- Pet Name -->
+            <td>{{ appt[7] }}</td> <!-- Status -->
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% elif appointments is not none %}
+    <p>No appointments found for that date.</p>
+  {% endif %}
+</div>
+{% endblock %}

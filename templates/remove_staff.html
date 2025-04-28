@@ -1,0 +1,17 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Remove Staff Member</h2>
+
+  <form method="POST" action="{{ url_for('remove_staff') }}">
+    <div class="mb-3">
+      <label for="Staff_ID" class="form-label">Enter Staff ID to Remove</label>
+      <input type="text" class="form-control" id="Staff_ID" name="Staff_ID" required>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-danger">Remove Staff</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
