@@ -1,0 +1,24 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5 text-center">
+  <h2 class="mb-4">Appointment Management</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="d-grid gap-3 col-6 mx-auto">
+    <a href="/view_appointments_by_date" class="btn btn-primary btn-lg">View Appointments by Date</a>
+    <a href="/create_appointment" class="btn btn-success btn-lg">Create Appointment</a>
+    <a href="/delete_appointment" class="btn btn-danger btn-lg">Delete Appointment</a>
+    <a href="/update_appointment_status" class="btn btn-warning btn-lg">Change Appointment Status</a>
+  </div>
+</div>
+{% endblock %}

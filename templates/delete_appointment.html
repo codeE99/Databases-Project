@@ -1,0 +1,17 @@
+{% extends '/include/layout.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4">Delete Appointment</h2>
+
+  <form method="POST" action="{{ url_for('delete_appointment') }}">
+    <div class="mb-3">
+      <label for="Appointment_ID" class="form-label">Appointment ID</label>
+      <input type="text" class="form-control" id="Appointment_ID" name="Appointment_ID" required>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-danger">Delete Appointment</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
