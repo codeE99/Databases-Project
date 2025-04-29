@@ -5,6 +5,8 @@ from flask_mysqldb import MySQL
 import json
 import MySQLdb.cursors
 import MySQLdb.cursors, re, hashlib
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.secret_key = 'dog_dayz_super_secret'
@@ -322,6 +324,65 @@ def update_appointment_status():
             return redirect('/appointment_management')
 
     return render_template('update_appointment_status.html')
+    
+@app.route('/stats')
+def stats():
+    # use a dict cursor so we can reference columns by name
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    # 1) Appointment Status Summary
+    cur.execute("""
+        SELECT Status, COUNT(*) AS count
+        FROM APPOINTMENT
+        GROUP BY Status
+    """)
+    rows = cur.fetchall()
+    status_summary = {'Scheduled': 0, 'Completed': 0, 'Cancelled': 0}
+    for row in rows:
+        status_summary[row['Status']] = row['count']
+
+    # 2) Total Revenue (assumes you have SERVICE & APPOINTMENT_SERVICES tables)
+    cur.execute("""
+        SELECT COALESCE(SUM(s.Price), 0) AS revenue
+        FROM APPOINTMENT a
+        JOIN APPOINTMENT_SERVICES aps ON a.Appointment_ID = aps.Appointment_ID
+        JOIN SERVICE s              ON aps.Service_ID     = s.Service_ID
+        WHERE a.Status = 'Completed'
+    """)
+    total_revenue = cur.fetchone()['revenue']
+
+    # 3) Top Staff Members by completed appts
+    cur.execute("""
+        SELECT s.First_Name, s.Last_Name, COUNT(*) AS completed_count
+        FROM APPOINTMENT a
+        JOIN STAFF s ON a.Staff_ID = s.Staff_ID
+        WHERE a.Status = 'Completed'
+        GROUP BY a.Staff_ID
+        ORDER BY completed_count DESC
+        LIMIT 5
+    """)
+    top_staff = cur.fetchall()
+
+    # 4) Appointments This Month
+    now = datetime.now()
+    cur.execute("""
+        SELECT COUNT(*) AS count
+        FROM APPOINTMENT
+        WHERE Date_Month = %s AND Date_Year = %s
+    """, (str(now.month), str(now.year)))
+    current_month_appointments = cur.fetchone()['count']
+
+    cur.close()
+
+    return render_template('stats.html',
+        status_summary=status_summary,
+        total_revenue=total_revenue,
+        top_staff=top_staff,
+        current_month_appointments=current_month_appointments,
+        now=now
+    )
+
+
 
 
 
