@@ -341,11 +341,11 @@ def stats():
     for row in rows:
         status_summary[row['Status']] = row['count']
 
-    # 2) Total Revenue (assumes you have SERVICE & APPOINTMENT_SERVICES tables)
+    # 2) Total Revenue
     cur.execute("""
         SELECT COALESCE(SUM(s.Price), 0) AS revenue
         FROM APPOINTMENT a
-        JOIN APPOINTMENT_SERVICES aps ON a.Appointment_ID = aps.Appointment_ID
+        JOIN APPOINTMENT_SERVICE aps ON a.Appointment_ID = aps.Appointment_ID
         JOIN SERVICE s              ON aps.Service_ID     = s.Service_ID
         WHERE a.Status = 'Completed'
     """)
