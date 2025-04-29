@@ -357,6 +357,43 @@ def update_appointment_status():
     return render_template('update_appointment_status.html')
 
 
+#prices
+
+@app.route('/prices')
+def prices():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Service_ID, Service, Description, Price FROM SERVICE")
+    services = cur.fetchall()
+    cur.close()
+
+    # Organize services based on keywords in their names
+    organized_services = {
+        'Small': [],
+        'Medium': [],
+        'Large': [],
+        'Extra Large': [],
+        'Other': []
+    }
+
+    for svc in services:
+        service_name = svc[1].lower()  # svc[1] = Service Name
+
+        if 'small' in service_name:
+            organized_services['Small'].append(svc)
+        elif 'medium' in service_name:
+            organized_services['Medium'].append(svc)
+        elif 'extra large' in service_name:
+            organized_services['Extra Large'].append(svc)
+        elif 'large' in service_name:
+            organized_services['Large'].append(svc)
+        else:
+            organized_services['Other'].append(svc)
+
+    return render_template('prices.html', organized_services=organized_services)
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
