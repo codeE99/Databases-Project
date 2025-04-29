@@ -20,6 +20,7 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
+#pet registration route
 @app.route('/pet', methods=['GET','POST'])
 def pet():
     msg=''
