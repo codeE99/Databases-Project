@@ -257,24 +257,57 @@ def create_appointment():
             Staff_ID = request.form['Staff_ID']
             Owner_ID = request.form['Owner_ID']
             Pet_ID = request.form['Pet_ID']
+            services = request.form.getlist('services')  # <-- get selected services list
 
             cur = mysql.connection.cursor()
+
+            # Insert into APPOINTMENT table
             cur.execute("""
                 INSERT INTO APPOINTMENT
                 (Appointment_ID, Date_Day, Date_Month, Date_Year, Time, Staff_ID, Owner_ID, Pet_ID)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, (Appointment_ID, Date_Day, Date_Month, Date_Year, Time, Staff_ID, Owner_ID, Pet_ID))
+
+            # Insert into APPOINTMENT_SERVICE table
+            for service_id in services:
+                cur.execute("""
+                    INSERT INTO APPOINTMENT_SERVICE (Appointment_ID, Service_ID, Estimated_Time)
+                    VALUES (%s, %s, %s)
+                """, (Appointment_ID, service_id, 30))  # <-- Estimated_Time is just 30 mins placeholder, can be improved
+
             mysql.connection.commit()
             cur.close()
 
-            flash('Appointment created successfully!', 'success')
+            flash('Appointment and services created successfully!', 'success')
             return redirect('/appointment_management')
 
         except Exception as e:
             flash(f"An error occurred: {str(e)}", 'danger')
             return redirect('/appointment_management')
 
-    return render_template('create_appointment.html')
+    else:
+        # GET: Load dropdowns and service list
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT Staff_ID, First_Name, Last_Name FROM STAFF")
+        staff_list = cur.fetchall()
+
+        cur.execute("SELECT Owner_ID, First_Name, Last_Name FROM OWNER")
+        owner_list = cur.fetchall()
+
+        cur.execute("SELECT Pet_ID, Name FROM PET")
+        pet_list = cur.fetchall()
+
+        cur.execute("SELECT Service_ID, Service, Price FROM SERVICE")
+        service_list = cur.fetchall()
+
+        cur.close()
+
+        return render_template('create_appointment.html', 
+                               staff_list=staff_list, 
+                               owner_list=owner_list, 
+                               pet_list=pet_list,
+                               service_list=service_list)
+
 
 # Delete Appointment
 @app.route('/delete_appointment', methods=['GET', 'POST'])
