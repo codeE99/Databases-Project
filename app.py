@@ -392,6 +392,52 @@ def prices():
 
     return render_template('prices.html', organized_services=organized_services)
 
+@app.route('/stats')
+def stats():
+    # use a dict cursor so we can reference columns by name
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    # 1) Appointment Status Summary
+    cur.execute("""
+        SELECT Status, COUNT(*) AS count
+        FROM APPOINTMENT
+        GROUP BY Status
+    """)
+    rows = cur.fetchall()
+    status_summary = {'Scheduled': 0, 'Completed': 0, 'Cancelled': 0}
+    for row in rows:
+        status_summary[row['Status']] = row['count']
+
+    # 2) Total Revenue
+    cur.execute("""
+        SELECT COALESCE(SUM(s.Price), 0) AS revenue
+        FROM APPOINTMENT a
+        JOIN APPOINTMENT_SERVICE aps ON a.Appointment_ID = aps.Appointment_ID
+        JOIN SERVICE s              ON aps.Service_ID     = s.Service_ID
+        WHERE a.Status = 'Completed'
+    """)
+    total_revenue = cur.fetchone()['revenue']
+
+    # 3) Top Staff Members by completed appts
+    cur.execute("""
+        SELECT s.First_Name, s.Last_Name, COUNT(*) AS completed_count
+        FROM APPOINTMENT a
+        JOIN STAFF s ON a.Staff_ID = s.Staff_ID
+        WHERE a.Status = 'Completed'
+        GROUP BY a.Staff_ID
+        ORDER BY completed_count DESC
+        LIMIT 5
+    """)
+    top_staff = cur.fetchall()
+    cur.close()
+
+    return render_template('stats.html',
+        status_summary=status_summary,
+        total_revenue=total_revenue,
+        top_staff=top_staff
+    )
+
+
 
 
 
