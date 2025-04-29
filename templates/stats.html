@@ -1,0 +1,56 @@
+{% extends 'include/layout.html' %}
+
+{% block title %}Business Statistics{% endblock %}
+
+{% block content %}
+  {# pull in our stats.css #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/stats.css') }}">
+
+  <h1 class="mb-4">Business Statistics</h1>
+
+  <div class="stats-container">
+
+    <!-- 1) Appointment Status Summary -->
+    <div class="stat-card">
+      <div class="stat-header">Appointment Status Summary</div>
+      <div class="status-pills">
+        <div class="status-pill scheduled">
+          Scheduled: {{ status_summary.Scheduled }}
+        </div>
+        <div class="status-pill completed">
+          Completed: {{ status_summary.Completed }}
+        </div>
+        <div class="status-pill cancelled">
+          Cancelled: {{ status_summary.Cancelled }}
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Total Revenue -->
+    <div class="stat-card">
+      <div class="stat-header">Total Revenue</div>
+      <div class="stat-content">${{ '{:,.2f}'.format(total_revenue) }}</div>
+      <div class="text-muted">From completed appointments</div>
+    </div>
+
+    <!-- 3) Top Staff Members -->
+    <div class="stat-card">
+      <div class="stat-header">Top Staff Members</div>
+      {% if top_staff %}
+        <ul class="staff-list">
+          {% for s in top_staff %}
+            <li class="staff-item">
+              {{ s.First_Name }} {{ s.Last_Name }}
+              <span>{{ s.completed_count }} completed</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No completed appointments yet.</p>
+      {% endif %}
+    </div>
+
+    
+
+  </div>
+{% endblock %}
